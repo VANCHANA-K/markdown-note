@@ -294,6 +294,16 @@
   els.deleteBtn?.addEventListener("click", removeCurrent);
   els.pinBtn?.addEventListener("click", togglePin);
   els.search?.addEventListener("input", renderList);
+  
+  // Debug: Re-attach search event listener to ensure it works
+  window.addEventListener("load", () => {
+    const searchInput = document.getElementById("search");
+    if (searchInput && !searchInput.hasAttribute("data-listener-attached")) {
+      searchInput.addEventListener("input", renderList);
+      searchInput.setAttribute("data-listener-attached", "true");
+      console.log("Search listener attached");
+    }
+  });
 
   // Mobile preview toggle
   let showingPreview = false;

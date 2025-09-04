@@ -100,6 +100,14 @@ header {
   outline: none;
   color: var(--text);
   width: 100%;
+  pointer-events: auto;
+  font-size: 14px;
+}
+.search-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
 }
 
 .controls {
@@ -538,6 +546,11 @@ header {
     flex: 1;
   }
   
+  .search.with-new-btn .search-input-wrapper input {
+    flex: 1;
+    pointer-events: auto !important;
+  }
+  
   .search.with-new-btn #newBtn {
     position: static;
     height: 40px;
@@ -700,6 +713,13 @@ header {
     width: 32px !important;
     height: 32px !important;
     font-size: 16px !important;
+  }
+  
+  /* Ensure search input works on tiny screens */
+  .search input {
+    pointer-events: auto !important;
+    z-index: 1;
+    position: relative;
   }
 }
 

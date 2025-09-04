@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Markdown Notes — Vanilla JS</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="brand">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M4 6h16M4 12h10M4 18h7"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+        </svg>
+        <span>Markdown Notes</span>
+        <span class="muted">(Vanilla JS)</span>
+      </div>
+
+      <div class="search">
+        <div class="search-input-wrapper">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+          <input
+            id="search"
+            type="search"
+            placeholder="Search notes… (⌘/Ctrl + K)"
+          />
+        </div>
+      </div>
+
+      <div class="controls">
+        <button
+          class="btn secondary icon-btn"
+          id="themeBtn"
+          title="Toggle theme"
+          aria-label="Toggle theme"
+        >
+          🌓
+        </button>
+        <button class="btn" id="newBtn">+ New</button>
+        <button class="btn secondary" id="exportBtn">Export</button>
+        <label class="btn secondary file-btn">
+          Import
+          <input
+            id="importInput"
+            type="file"
+            accept="application/json"
+            hidden
+          />
+        </label>
+      </div>
+    </header>
+
+    <main class="layout">
+      <aside class="sidebar" aria-label="Notes list">
+        <ul id="noteList" class="note-list"></ul>
+      </aside>
+
+      <!-- Editor/Preview: แสดงเป็นคอลัมน์ขวาบนเดสก์ท็อป
+           (บนมือถือ JS จะย้ายเข้ามาใน #noteDialog อัตโนมัติ) -->
+      <section class="editor" aria-label="Editor and Preview">
+        <div class="editor-header">
+          <input id="title" class="title-input" placeholder="Note title…" />
+          <div class="editor-actions">
+            <button class="chip-btn preview-toggle" id="previewToggle" title="Toggle Preview" style="display: none;">
+              👁️ Preview
+            </button>
+            <button class="chip-btn" id="pinBtn" title="Pin/Unpin">
+              📌 Pin
+            </button>
+            <button class="chip-btn danger" id="deleteBtn" title="Delete">
+              Delete
+            </button>
+          </div>
+        </div>
+
+        <div class="panes">
+          <textarea
+            id="content"
+            class="pane pane-edit"
+            placeholder="# Hello Markdown 👋&#10;&#10;Type on the left, preview on the right."
+          ></textarea>
+          <article
+            id="preview"
+            class="pane pane-preview"
+            aria-live="polite"
+          ></article>
+        </div>
+      </section>
+    </main>
+
+    <!-- Popup (mobile only): JS จะย้าย .editor เข้ามาเมื่อจอกว้าง ≤ 680px -->
+    <dialog id="noteDialog" class="note-dialog">
+      <div class="note-dialog-shell">
+        <!-- Close button for mobile dialog -->
+        <button id="closeDialog" class="close-dialog-btn">×</button>
+      </div>
+    </dialog>
+
+    <template id="itemTpl">
+      <li class="note-item">
+        <button class="note-row">
+          <div class="note-title"></div>
+          <div class="note-meta">
+            <span class="pin" title="Pinned">📌</span>
+            <span class="date"></span>
+          </div>
+        </button>
+      </li>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>

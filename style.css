@@ -1,0 +1,770 @@
+:root {
+  --bg: #0f1220;
+  --panel: #161a2b;
+  --text: #e9edf5;
+  --muted: #8a90a7;
+  --accent: #6aa9ff;
+  --danger: #ff6b6b;
+  --radius: 14px;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+}
+[data-theme="light"] {
+  --bg: #f6f7fb;
+  --panel: #fff;
+  --text: #1b2130;
+  --muted: #6a7280;
+  --accent: #2563eb;
+  --shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* Base */
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  color: var(--text);
+  font: 15px/1.55 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  background: radial-gradient(
+      1200px 600px at 10% -10%,
+      rgba(82, 99, 255, 0.12),
+      transparent 40%
+    ),
+    radial-gradient(
+      900px 400px at 100% 20%,
+      rgba(83, 223, 163, 0.1),
+      transparent 35%
+    ),
+    var(--bg);
+}
+
+/* Header */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding: 14px 18px;
+  margin: 12px;
+  background: color-mix(in lab, var(--panel) 94%, transparent);
+  border: 1px solid color-mix(in lab, var(--panel) 90%, var(--text) 10%);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+  max-width: 1200px;
+  margin-inline: auto; /* center header */
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.brand svg {
+  width: 22px;
+  height: 22px;
+}
+.brand span {
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+.brand .muted {
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: color-mix(in lab, var(--panel) 96%, var(--text) 4%);
+  border: 1px solid color-mix(in lab, var(--panel) 85%, var(--text) 15%);
+  transition: all 0.2s ease;
+  min-width: 300px;
+}
+.search:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in lab, var(--accent) 20%, transparent);
+}
+.search input {
+  background: transparent;
+  border: 0;
+  outline: none;
+  color: var(--text);
+  width: 100%;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+}
+.btn {
+  appearance: none;
+  border: 0;
+  border-radius: 12px;
+  cursor: pointer;
+  padding: 9px 13px;
+  background: var(--accent);
+  color: var(--text);
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+.btn:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+.btn.secondary {
+  background: color-mix(in lab, var(--panel) 82%, var(--text) 8%);
+  border: 1px solid color-mix(in lab, var(--panel) 78%, var(--text) 18%);
+}
+.icon-btn {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+}
+.file-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Icon styles for desktop and tablet */
+@media (min-width: 681px) {
+  #exportBtn,
+  .file-btn {
+    width: 40px !important;
+    height: 40px !important;
+    padding: 0 !important;
+    display: grid !important;
+    place-items: center;
+    font-size: 0 !important;
+    border-radius: 12px;
+  }
+  #exportBtn::before {
+    content: "⤓";
+    font-size: 16px;
+    line-height: 1;
+  }
+  .file-btn::before {
+    content: "⤴";
+    font-size: 16px;
+    line-height: 1;
+  }
+}
+
+/* Layout (2 columns on desktop) */
+.layout {
+  display: grid;
+  grid-template-areas: "sidebar editor";
+  grid-template-columns: 320px 1fr;
+  gap: 16px;
+  padding: 0 16px 16px;
+  max-width: 1200px;
+  margin-inline: auto;
+}
+
+/* Adjust layout for large screens */
+@media (min-width: 1200px) {
+  .layout {
+    grid-template-columns: 340px 1fr;
+    gap: 20px;
+  }
+  header {
+    padding: 16px 20px;
+  }
+}
+.sidebar {
+  grid-area: sidebar;
+}
+.editor {
+  grid-area: editor;
+}
+
+.sidebar {
+  margin-left: 12px;
+  background: var(--panel);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  border: 1px solid color-mix(in lab, var(--panel) 78%, var(--text) 14%);
+  overflow: auto;
+  min-height: 60vh;
+}
+.note-list {
+  list-style: none;
+  margin: 0;
+  padding: 8px;
+}
+.note-item + .note-item {
+  margin-top: 8px;
+}
+.note-row {
+  width: 100%;
+  text-align: left;
+  padding: 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  background: color-mix(in lab, var(--panel) 86%, var(--text) 3%);
+  border: 1px solid color-mix(in lab, var(--panel) 78%, var(--text) 16%);
+  color: inherit;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.note-row:hover {
+  filter: brightness(1.05);
+}
+.note-title {
+  font-weight: 800;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.note-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.note-meta .pin {
+  display: none;
+}
+.note-row.pinned .pin {
+  display: inline;
+}
+
+/* Editor card */
+.editor {
+  margin-right: 12px;
+  background: var(--panel);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  border: 1px solid color-mix(in lab, var(--panel) 78%, var(--text) 14%);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.editor-header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-bottom: 1px dashed color-mix(in lab, var(--panel) 70%, var(--text) 22%);
+}
+.title-input {
+  background: transparent;
+  border: 0;
+  outline: none;
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 800;
+  width: 100%;
+}
+.editor-actions {
+  display: flex;
+  gap: 8px;
+}
+.chip-btn {
+  appearance: none;
+  border: 1px solid color-mix(in lab, var(--panel) 78%, var(--text) 20%);
+  background: transparent;
+  color: var(--muted);
+  padding: 6px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.chip-btn:hover {
+  color: var(--text);
+}
+.chip-btn.danger {
+  color: var(--danger);
+  border-color: color-mix(in lab, var(--panel) 70%, var(--danger) 40%);
+}
+
+.panes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 60vh;
+}
+.pane {
+  padding: 14px;
+  overflow: auto;
+}
+.pane-edit {
+  background: color-mix(in lab, var(--panel) 88%, var(--text) 3%);
+  border-right: 1px dashed color-mix(in lab, var(--panel) 70%, var(--text) 22%);
+  resize: none;
+  color: var(--text);
+  border: 0;
+  outline: none;
+  font: 14px/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+.pane-preview {
+  background: color-mix(in lab, var(--panel) 90%, var(--text) 2%);
+}
+
+/* Markdown styles */
+.pane-preview h1,
+.pane-preview h2,
+.pane-preview h3 {
+  margin: 0.4em 0 0.3em;
+}
+.pane-preview h1 {
+  font-size: 26px;
+}
+.pane-preview h2 {
+  font-size: 22px;
+}
+.pane-preview h3 {
+  font-size: 18px;
+}
+.pane-preview p {
+  margin: 0.5em 0;
+}
+.pane-preview code {
+  background: rgba(255, 255, 255, 0.06);
+  padding: 0.1em 0.35em;
+  border-radius: 6px;
+  font-family: ui-monospace, monospace;
+}
+.pane-preview pre {
+  background: rgba(255, 255, 255, 0.06);
+  padding: 10px 12px;
+  border-radius: 10px;
+  overflow: auto;
+}
+.pane-preview ul {
+  margin: 0.4em 0 0.6em 1.2em;
+}
+.pane-preview a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.pane-preview a:hover {
+  text-decoration: underline;
+}
+.pane-preview hr {
+  border: 0;
+  border-top: 1px solid color-mix(in lab, var(--panel) 70%, var(--text) 22%);
+  margin: 0.8em 0;
+}
+
+/* Large Tablet/Small Desktop */
+@media (max-width: 1024px) {
+  header {
+    padding: 12px 16px;
+    gap: 12px;
+  }
+  .search {
+    min-width: 280px;
+  }
+}
+
+/* Tablet - Desktop Style */
+@media (max-width: 900px) {
+  header {
+    grid-template-areas: "brand controls" "search search";
+    grid-template-columns: 1fr auto;
+    row-gap: 12px;
+    padding: 12px 14px;
+  }
+  .brand {
+    grid-area: brand;
+  }
+  .controls {
+    grid-area: controls;
+    gap: 6px;
+  }
+  .search {
+    grid-area: search;
+    min-width: 250px;
+  }
+
+  /* Adjust button sizes for tablet */
+  .controls .btn {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  #newBtn {
+    padding: 8px 14px;
+    font-weight: 600;
+    font-size: 13px;
+  }
+  
+  /* Use icons for Export/Import on tablet */
+  #exportBtn,
+  .file-btn {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    font-size: 0 !important;
+    display: grid !important;
+    place-items: center;
+    border-radius: 12px;
+  }
+  #exportBtn::before {
+    content: "⤓";
+    font-size: 16px;
+    line-height: 1;
+  }
+  .file-btn::before {
+    content: "⤴";
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  .layout {
+    grid-template-areas: "sidebar editor";
+    grid-template-columns: 280px 1fr;
+    gap: 14px;
+  }
+  .sidebar {
+    margin: 0 12px;
+  }
+  .editor {
+    margin: 0 12px;
+  }
+}
+
+/* Medium Tablet */
+@media (max-width: 768px) {
+  .controls .btn {
+    padding: 7px 10px;
+    font-size: 12px;
+  }
+  #newBtn {
+    padding: 7px 12px;
+    font-size: 12px;
+  }
+  .search {
+    min-width: 200px;
+    padding: 10px 12px;
+  }
+  header {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+  .layout {
+    grid-template-columns: 260px 1fr;
+    gap: 12px;
+  }
+  
+  /* Keep icons for Export/Import */
+  #exportBtn,
+  .file-btn {
+    width: 36px;
+    padding: 0;
+    font-size: 0;
+  }
+  #exportBtn::before {
+    content: "⤓";
+    font-size: 15px;
+    line-height: 1;
+  }
+  .file-btn::before {
+    content: "⤴";
+    font-size: 15px;
+    line-height: 1;
+  }
+}
+
+/* Mobile (popup) */
+@media (max-width: 680px) {
+  header {
+    grid-template-areas: "brand controls" "search search";
+    grid-template-columns: 1fr auto;
+    row-gap: 12px;
+  }
+  
+  /* Add close button to editor header on mobile */
+  .note-dialog .editor-header {
+    position: relative;
+  }
+  
+  
+  .brand .muted {
+    display: none;
+  }
+
+  .icon-btn {
+    width: 40px;
+    height: 40px;
+  }
+  #exportBtn,
+  .file-btn {
+    height: 40px;
+    width: 40px;
+    padding: 0;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-size: 0;
+  }
+  #exportBtn::before {
+    content: "⤓";
+    font-size: 18px;
+    line-height: 1;
+  }
+  .file-btn::before {
+    content: "⤴";
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  /* New button in search row for mobile */
+  .search.with-new-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  
+  .search.with-new-btn .search-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+  }
+  
+  .search.with-new-btn #newBtn {
+    position: static;
+    height: 40px;
+    padding: 0 16px;
+    border-radius: 20px;
+    box-shadow: none;
+    font-weight: 600;
+    font-size: 14px;
+    min-width: auto;
+  }
+  
+  /* Hide the original New button in controls for mobile */
+  .controls #newBtn {
+    display: none;
+  }
+
+  .layout {
+    grid-template-areas: "sidebar";
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 0 12px 16px;
+  }
+  .sidebar {
+    margin: 0;
+    min-height: calc(100vh - 160px);
+  }
+  .editor {
+    display: none; /* Hide editor on mobile - will show in dialog */
+    margin: 0;
+  }
+  
+  /* Dialog (mobile fullscreen) */
+  .note-dialog {
+    border: 0;
+    padding: 0;
+    width: 100vw;
+    max-width: none;
+    height: 100vh;
+    max-height: none;
+    background: var(--bg);
+    backdrop-filter: none;
+  }
+  .note-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
+  }
+  .note-dialog-shell {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  .note-dialog .editor {
+    display: flex;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    border: 0;
+    flex-direction: column;
+  }
+  .note-dialog .panes {
+    flex: 1;
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+  .note-dialog .pane {
+    height: 100%;
+  }
+  
+  /* Close button styling - positioned in editor header */
+  .note-dialog .close-dialog-btn {
+    position: absolute !important;
+    top: 100px !important;
+    right: 16px !important;
+    z-index: 100;
+    background: color-mix(in lab, var(--panel) 85%, var(--text) 15%) !important;
+    border: 1px solid color-mix(in lab, var(--panel) 75%, var(--text) 25%) !important;
+    color: var(--text) !important;
+    border-radius: 50% !important;
+    width: 48px !important;
+    height: 48px !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 44px !important;
+    font-weight: 400;
+    line-height: 1;
+    transition: all 0.2s ease;
+    padding: 0 !important;
+  }
+  .note-dialog .close-dialog-btn:hover {
+    background: color-mix(in lab, var(--panel) 80%, var(--text) 20%) !important;
+    transform: scale(1.05);
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  header {
+    margin: 10px;
+    padding: 10px 12px;
+  }
+  .controls {
+    gap: 4px;
+  }
+  .controls .btn {
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+  
+  /* New button in search area */
+  .search.with-new-btn #newBtn {
+    height: 36px;
+    padding: 0 14px;
+    font-size: 13px;
+    border-radius: 18px;
+  }
+  
+  .search {
+    padding: 8px 10px;
+  }
+}
+
+/* Tiny screens */
+@media (max-width: 380px) {
+  header {
+    margin: 8px;
+    padding: 8px 10px;
+    border-radius: 14px;
+  }
+  .search {
+    padding: 8px 10px;
+    min-width: 180px;
+  }
+  .controls {
+    gap: 3px;
+  }
+  .controls .btn {
+    padding: 5px 7px;
+    font-size: 10px;
+  }
+  
+  /* New button in search area for tiny screens */
+  .search.with-new-btn #newBtn {
+    height: 32px;
+    padding: 0 12px;
+    font-size: 12px;
+    border-radius: 16px;
+  }
+  
+  .search.with-new-btn {
+    gap: 8px;
+  }
+  
+  /* Smaller close button for tiny screens */
+  .note-dialog .close-dialog-btn {
+    top: 12px !important;
+    right: 12px !important;
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 16px !important;
+  }
+}
+
+@media (max-width: 680px) {
+  /* Show preview toggle button on mobile */
+  .editor-header {
+    position: relative;
+    padding: 16px;
+  }
+  
+  .preview-toggle {
+    display: inline-block;
+    margin-left: 8px;
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+  
+  /* Mobile editor panes */
+  .panes {
+    grid-template-columns: 1fr;
+    height: 100%;
+  }
+  
+  .pane {
+    padding: 16px;
+  }
+  
+  /* Default: show only editor on mobile */
+  .pane-preview {
+    display: none !important;
+  }
+  .pane-edit {
+    border-right: 0;
+    resize: none;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* When preview mode is active */
+  .show-preview .pane-edit {
+    display: none !important;
+  }
+  .show-preview .pane-preview {
+    display: block !important;
+    overflow-y: auto;
+  }
+
+  /* Dialog mobile view improvements */
+  .note-dialog .editor-header {
+    border-bottom: 1px solid color-mix(in lab, var(--panel) 70%, var(--text) 22%);
+    background: var(--panel);
+  }
+  .note-dialog .pane-preview {
+    display: none !important;
+    background: var(--panel);
+  }
+  .note-dialog.show-preview .pane-edit {
+    display: none !important;
+  }
+  .note-dialog.show-preview .pane-preview {
+    display: block !important;
+    overflow-y: auto;
+  }
+  .note-dialog .title-input {
+    font-size: 16px;
+    background: transparent;
+  }
+}
